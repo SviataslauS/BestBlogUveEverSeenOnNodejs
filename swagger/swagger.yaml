@@ -12,60 +12,22 @@ info:
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
-servers:
-- url: https://blog.swagger.io/v2
-- url: http://blog.swagger.io/v2
 tags:
 - name: post
   description: Everything about your Posts
-  externalDocs:
-    description: Find out more
-    url: http://swagger.io
 - name: comment
   description: Access to comments
 - name: user
   description: Operations about user
-  externalDocs:
-    description: Find out more about our store
-    url: http://swagger.io
 paths:
-  /post:
-    put:
-      tags:
-      - post
-      summary: Update an existing post
-      operationId: updatePost
-      requestBody:
-        description: Post object that needs to be added to the store
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Post'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Post'
-        required: true
-      responses:
-        400:
-          description: Invalid ID supplied
-          content: {}
-        404:
-          description: Post not found
-          content: {}
-        405:
-          description: Validation exception
-          content: {}
-      security:
-      - blog_auth:
-        - write:posts
-        - read:posts
+  /posts:
     post:
       tags:
       - post
-      summary: Add a new post to the store
+      summary: Add a new post to the blog
       operationId: addPost
       requestBody:
-        description: Post object that needs to be added to the store
+        description: Post object that needs to be added to the blog
         content:
           application/json:
             schema:
@@ -75,6 +37,9 @@ paths:
               $ref: '#/components/schemas/Post'
         required: true
       responses:
+        201:
+          description: successful operation
+          content: {}
         405:
           description: Invalid input
           content: {}
@@ -82,7 +47,7 @@ paths:
       - blog_auth:
         - write:posts
         - read:posts
-  /post/{postId}:
+  /posts/{postId}:
     get:
       tags:
       - post
@@ -118,7 +83,7 @@ paths:
     post:
       tags:
       - post
-      summary: Updates a post in the store with form data
+      summary: Updates a post in the blog with form data
       operationId: updatePostWithForm
       parameters:
       - name: postId
@@ -136,9 +101,6 @@ paths:
                 name:
                   type: string
                   description: Updated name of the post
-                status:
-                  type: string
-                  description: Updated status of the post
       responses:
         405:
           description: Invalid input
@@ -175,8 +137,125 @@ paths:
       - blog_auth:
         - write:posts
         - read:posts
+  /posts/{postId}/comments:
+    post:
+      tags:
+      - comment
+      summary: Add a new comment to the post
+      operationId: addComment
+      requestBody:
+        description: Post object that needs to be added to the blog
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content: {}
+        405:
+          description: Invalid input
+          content: {}
+      security:
+      - blog_auth:
+        - write:posts
+        - read:posts
+  /posts/{postId}/comments/{commentId}:
+    get:
+      tags:
+      - comment
+      summary: Find comment by ID
+      description: Returns a single comment
+      operationId: getCommentById
+      parameters:
+      - name: commentId
+        in: path
+        description: ID of comment to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Comment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Comment not found
+          content: {}
+      security:
+      - api_key: []
+    post:
+      tags:
+      - comment
+      summary: Updates a comment in the blog with form data
+      operationId: updateComment
+      parameters:
+      - name: commentId
+        in: path
+        description: ID of comment that needs to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Comment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+      responses:
+        405:
+          description: Invalid input
+          content: {}
+      security:
+      - blog_auth:
+        - write:comments
+        - read:comments
+    delete:
+      tags:
+      - comment
+      summary: Delete a comment
+      operationId: deleteComment
+      parameters:
+      - name: api_key
+        in: header
+        schema:
+          type: string
+      - name: commentId
+        in: path
+        description: Comment id to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Comment not found
+          content: {}
+      security:
+      - blog_auth:
+        - write:comments
+        - read:comments
   /user:
-    put:
+    post:
       tags:
       - user
       summary: Create user
@@ -193,19 +272,19 @@ paths:
         default:
           description: successful operation
           content: {}
-  /user/{username}:
+  /user/{id}:
     get:
       tags:
       - user
-      summary: Get user by user name
-      operationId: getUserByName
+      summary: Get user by user id
+      operationId: getUserById
       parameters:
-      - name: username
+      - name: id
         in: path
-        description: 'The name that needs to be fetched. Use user1 for testing. '
+        description: 'The id that needs to be fetched. Use 1 for testing. '
         required: true
         schema:
-          type: string
+          type: integer
       responses:
         200:
           description: successful operation
@@ -217,7 +296,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         400:
-          description: Invalid username supplied
+          description: Invalid id supplied
           content: {}
         404:
           description: User not found
@@ -229,12 +308,12 @@ paths:
       description: This can only be done by the logged in user.
       operationId: updateUser
       parameters:
-      - name: username
+      - name: id
         in: path
-        description: name that need to be updated
+        description: id of user that need to be updated
         required: true
         schema:
-          type: string
+          type: integer
       requestBody:
         description: Updated user object
         content:
@@ -272,6 +351,8 @@ paths:
 components:
   schemas:
     User:
+      required:
+      - username
       type: object
       properties:
         id:
@@ -279,69 +360,51 @@ components:
           format: int64
         username:
           type: string
-        firstName:
-          type: string
-        lastName:
+        fullName:
           type: string
         email:
           type: string
-        password:
-          type: string
-        phone:
-          type: string
-        userStatus:
+        role:
           type: integer
-          description: User Status
+          description: User Role
           format: int32
       xml:
         name: User
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      xml:
-        name: Tag
     Post:
       required:
       - name
-      - photoUrls
       type: object
       properties:
         id:
           type: integer
           format: int64
-        category:
-          $ref: '#/components/schemas/Category'
         name:
           type: string
           example: doggie
-        photoUrls:
-          type: array
-          xml:
-            name: photoUrl
-            wrapped: true
-          items:
-            type: string
-        tags:
-          type: array
-          xml:
-            name: tag
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Tag'
-        status:
+        creationDate:
           type: string
-          description: post status in the store
-          enum:
-          - available
-          - pending
-          - sold
+          example: 30/02/2012
       xml:
         name: Post
+    Comment:
+      required:
+      - postId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        postId:
+          type: integer
+          format: int64
+        text:
+          type: string
+          example: u re crazy, man
+        creationDate:
+          type: string
+          example: 30/02/2012
+      xml:
+        name: Comment
     ApiResponse:
       type: object
       properties:
