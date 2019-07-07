@@ -43,10 +43,6 @@ paths:
         405:
           description: Invalid input
           content: {}
-      security:
-      - blog_auth:
-        - write:posts
-        - read:posts
   /posts/{postId}:
     get:
       tags:
@@ -78,8 +74,6 @@ paths:
         404:
           description: Post not found
           content: {}
-      security:
-      - api_key: []
     post:
       tags:
       - post
@@ -105,10 +99,6 @@ paths:
         405:
           description: Invalid input
           content: {}
-      security:
-      - blog_auth:
-        - write:posts
-        - read:posts
     delete:
       tags:
       - post
@@ -133,10 +123,6 @@ paths:
         404:
           description: Post not found
           content: {}
-      security:
-      - blog_auth:
-        - write:posts
-        - read:posts
   /posts/{postId}/comments:
     post:
       tags:
@@ -160,10 +146,6 @@ paths:
         405:
           description: Invalid input
           content: {}
-      security:
-      - blog_auth:
-        - write:posts
-        - read:posts
   /posts/{postId}/comments/{commentId}:
     get:
       tags:
@@ -195,8 +177,6 @@ paths:
         404:
           description: Comment not found
           content: {}
-      security:
-      - api_key: []
     post:
       tags:
       - comment
@@ -222,10 +202,6 @@ paths:
         405:
           description: Invalid input
           content: {}
-      security:
-      - blog_auth:
-        - write:comments
-        - read:comments
     delete:
       tags:
       - comment
@@ -250,10 +226,6 @@ paths:
         404:
           description: Comment not found
           content: {}
-      security:
-      - blog_auth:
-        - write:comments
-        - read:comments
   /user:
     post:
       tags:
@@ -415,16 +387,3 @@ components:
           type: string
         message:
           type: string
-  securitySchemes:
-    blog_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://poststore.swagger.io/oauth/dialog
-          scopes:
-            write:posts: modify posts in your account
-            read:posts: read your posts
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
