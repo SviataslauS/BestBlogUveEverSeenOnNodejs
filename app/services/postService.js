@@ -1,21 +1,21 @@
-var _ = require('lodash');
-var Repository = require('../repository/repository')
+const _ = require('lodash');
+const Repository = require('../repository/repository')
 
 class PostService {    
   static getStatistic() {
-    var posts = Repository.getAllPosts();
+    const posts = Repository.getAllPosts();
 
-    var dayInMc = 1000 * 60 * 60 * 24;
-    var postsPerDay = PostService.getStatForPeriod(posts, dayInMc);
+    const dayInMc = 1000 * 60 * 60 * 24;
+    const postsPerDay = PostService.getStatForPeriod(posts, dayInMc);
     
-    var weekInMc = 1000 * 60 * 60 * 24 * 7;
-    var postsPerWeek = PostService.getStatForPeriod(posts, weekInMc);
+    const weekInMc = 1000 * 60 * 60 * 24 * 7;
+    const postsPerWeek = PostService.getStatForPeriod(posts, weekInMc);
     
-    var postsPerMonthArr = _.groupBy(posts, function (item, val, index) {
-      var d = (item.creationDate.getFullYear()-1970)*12 + item.creationDate.getMonth();
+    const postsPerMonthArr = _.groupBy(posts, function (item, val, index) {
+      const d = (item.creationDate.getFullYear()-1970)*12 + item.creationDate.getMonth();
       return d;
     });
-    var postsPerMonth = PostService.getMaxLenghtOfGroupedArr(postsPerMonthArr);
+    const postsPerMonth = PostService.getMaxLenghtOfGroupedArr(postsPerMonthArr);
 
     return {
       postsPerDay,
@@ -25,15 +25,15 @@ class PostService {
   }
 
   static getStatForPeriod(posts, period) {
-    var postsPerPeriodArr = _.groupBy(posts, function (item, val, index) {
-      var d = Math.floor(item.creationDate.getTime() / period);
+    const postsPerPeriodArr = _.groupBy(posts, function (item, val, index) {
+      const d = Math.floor(item.creationDate.getTime() / period);
       return d;
     });
     return PostService.getMaxLenghtOfGroupedArr(postsPerPeriodArr);
   }
 
   static getMaxLenghtOfGroupedArr(groupedArr) {
-    var maxLenght = 0;
+    let maxLenght = 0;
     _.each(groupedArr, item => {
       if (item && item.length > maxLenght) {
         maxLenght = item.length;
