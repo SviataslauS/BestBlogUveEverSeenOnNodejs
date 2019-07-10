@@ -6,6 +6,7 @@ const { RoutingUtils } = require('./utils/routingUtils');
 
 const app = express();
 
+RoutingUtils.registerMiddlewares(app);
 RoutingUtils.registerRoutes(app);
 
 const http = require('http');

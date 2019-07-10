@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { getEnvVariables }  = require('../utils/envVariablesHelper');
 const { permissions } = require('../utils/enums');
 

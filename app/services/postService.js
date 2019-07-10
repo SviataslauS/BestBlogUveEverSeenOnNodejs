@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Repository = require('../repository/repository')
+const Repository = require('../repository/repository');
 
 class PostService {    
   static getStatistic() {
@@ -12,7 +12,7 @@ class PostService {
     const postsPerWeek = PostService.getStatForPeriod(posts, weekInMc);
     
     const postsPerMonthArr = _.groupBy(posts, function (item, val, index) {
-      const d = (item.creationDate.getFullYear()-1970)*12 + item.creationDate.getMonth();
+      const d = (item.creationDate.getFullYear() - 1970) * 12 + item.creationDate.getMonth();
       return d;
     });
     const postsPerMonth = PostService.getMaxLenghtOfGroupedArr(postsPerMonthArr);
