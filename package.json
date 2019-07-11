@@ -24,7 +24,6 @@
     "fs": "0.0.1-security",
     "jest": "24.8.0",
     "lodash": "^4.17.11",
-    "opn": "^6.0.0",
     "swagger-ui-express": "^4.0.7"
   },
   "devDependencies": {

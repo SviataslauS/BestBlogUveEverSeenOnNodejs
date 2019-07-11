@@ -29,6 +29,7 @@
         "no-useless-escape": 0,
         "no-extra-semi": 2,
         "no-extra-boolean-cast" : 0,
+        "no-unreachable": "warn",
         "space-infix-ops": ["error"]
     }
 }

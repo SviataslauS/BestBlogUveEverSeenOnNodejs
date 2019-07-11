@@ -1,24 +1,23 @@
 const {HealthController} = require('../controllers/healthController');
-const LoginController = require('../controllers/loginController');
-const { Auth }  = require('../services/authorizationService');
+const { LoginController, authCookieName } = require('../controllers/loginController');
 const _ = require('lodash');
 
-const nonSecurePaths = ['/', HealthController.paths.ping,  LoginController.paths.login];
+const nonSecurePaths = [
+        '/',
+        HealthController.paths.ping,
+        LoginController.paths.login,
+        LoginController.paths.logout,
+    ];
 
 function authMiddleware (req, res, next) {
-    if ( _.includes(nonSecurePaths, req.path) ) {
+    if ( _.includes(nonSecurePaths, req.originalUrl) ) {
         return next();
     }
     
-    const user = { 'email': 'test@qwe.qwe'}; //getCurrentUser()
-    const isAllowed = Auth.checkUserPermission("permissionName", user);
-    if(isAllowed){
-        next();
-    }
-    else {
-        res.status(403).send('You Shall Not Pass!');
-    }
-    
+    const authCookie = (req.cookies)[authCookieName];
+    return authCookie
+            ? next()
+            : res.status(401).send('Unauthorized');
 }
 
-module.exports = { authMiddleware };
+module.exports = { authMiddleware, authCookieName };
