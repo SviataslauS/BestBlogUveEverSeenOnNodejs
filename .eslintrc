@@ -8,6 +8,10 @@
         "require": "readonly",
         "process": "readonly",
         "module": "readonly",
+        "describe": "readonly",
+        "expect": "readonly",
+        "xit": "readonly",
+        "it": "readonly",
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },

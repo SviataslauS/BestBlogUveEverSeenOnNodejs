@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 
 
 class RoutingUtils {
-    static registerMiddlewares(app){
+    static registerMiddlewares(app) {
         //app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
         app.use('*', authMiddleware);

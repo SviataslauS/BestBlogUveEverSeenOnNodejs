@@ -1,6 +1,6 @@
 const {HealthController} = require('../controllers/healthController');
 const LoginController = require('../controllers/loginController');
-const { Auth }  = require('../services/auth');
+const { Auth }  = require('../services/authorizationService');
 const _ = require('lodash');
 
 const nonSecurePaths = ['/', HealthController.paths.ping,  LoginController.paths.login];
