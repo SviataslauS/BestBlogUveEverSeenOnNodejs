@@ -11,7 +11,7 @@ class LoginController {
     }
     
     static login (req, res) {
-        var randomNumber = Math.random().toString();
+        let randomNumber = Math.random().toString();
         randomNumber = randomNumber.substring(2,randomNumber.length);
         const maxAge = 1 * 60 * 60 * 1000;
         res.cookie(authCookieName, randomNumber, { maxAge });

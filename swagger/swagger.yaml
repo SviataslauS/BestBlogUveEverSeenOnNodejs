@@ -21,6 +21,25 @@ tags:
   description: Operations about user
 paths:
   /posts:
+    get:
+      tags:
+      - post
+      summary: Get all posts
+      description: Returns all posts
+      operationId: getAllPosts
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Post not found
+          content: {}
     post:
       tags:
       - post
@@ -32,9 +51,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Post'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Post'
         required: true
       responses:
         201:
@@ -43,6 +59,19 @@ paths:
         405:
           description: Invalid input
           content: {}
+  /posts/statistic:
+    get:
+      tags:
+      - post
+      summary: Returs posts per day, week, month
+      operationId: getStatistic
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsStatistic'
   /posts/{postId}:
     get:
       tags:
@@ -62,9 +91,6 @@ paths:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
@@ -74,7 +100,7 @@ paths:
         404:
           description: Post not found
           content: {}
-    post:
+    put:
       tags:
       - post
       summary: Updates a post in the blog with form data
@@ -105,10 +131,6 @@ paths:
       summary: Deletes a post
       operationId: deletePost
       parameters:
-      - name: api_key
-        in: header
-        schema:
-          type: string
       - name: postId
         in: path
         description: Post id to delete
@@ -133,9 +155,6 @@ paths:
         description: Post object that needs to be added to the blog
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          application/xml:
             schema:
               $ref: '#/components/schemas/Comment'
         required: true
@@ -165,9 +184,6 @@ paths:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Comment'
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
@@ -192,9 +208,6 @@ paths:
           format: int64
       requestBody:
         content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Comment'
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
@@ -208,10 +221,6 @@ paths:
       summary: Delete a comment
       operationId: deleteComment
       parameters:
-      - name: api_key
-        in: header
-        schema:
-          type: string
       - name: commentId
         in: path
         description: Comment id to delete
@@ -261,9 +270,6 @@ paths:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
@@ -358,6 +364,22 @@ components:
           example: 30/02/2012
       xml:
         name: Post
+    PostsStatistic:
+      required:
+      - postsPerDay
+      - postsPerWeek
+      - postsPerMonth
+      type: object
+      properties:
+        postsPerDay:
+          type: integer
+          format: int64
+        postsPerWeek:
+          type: integer
+          format: int64
+        postsPerMonth:
+          type: integer
+          format: int64
     Comment:
       required:
       - postId

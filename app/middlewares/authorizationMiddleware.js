@@ -21,7 +21,7 @@ function withAuthorization(controller, actionName) {
             res.status(403).send('You Shall Not Pass!');
         }
 
-    }
+    };
 }
 
 module.exports = { withAuthorization };

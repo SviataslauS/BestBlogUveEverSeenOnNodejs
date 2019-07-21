@@ -1,5 +1,5 @@
 const { getEnvVariables }  = require('../utils/envVariablesHelper');
-const { permissions } = require('../utils/enums');
+const { permissions: permissionsEnum } = require('../utils/enums');
 
 
 class Auth {
@@ -32,27 +32,27 @@ class Auth {
 
     getAllPermissions() {
         const envVarPrefix = 'BLOG_AUTH_';
-        const envVariables = getEnvVariables(); // {'ENV_VAR'=value}
+        const envVariables = getEnvVariables();
         const permissionVariables = Object.keys(envVariables).filter(function(k) {
             return k.indexOf(envVarPrefix) == 0;
         })
-        .reduce(function(newData, envVariableName) {
-            let key = envVariableName.replace(envVarPrefix, '');
-            Object.keys(permissions).forEach(function(permissionName) {
-                if(key.indexOf(permissionName) == 0) {
-                    let permPropName = key.replace(permissionName + '_', '').toLowerCase();
+        .reduce(function(parsedPermVariables, envVariableNameWithPrefix) {
+            let envVariableName = envVariableNameWithPrefix.replace(envVarPrefix, '');
+            Object.keys(permissionsEnum).forEach(function(permissionName) {
+                if(envVariableName.indexOf(permissionName) == 0) {
+                    let permPropName = envVariableName.replace(permissionName + '_', '').toLowerCase();
                     if(permPropName !== 'field' && permPropName !== 'match'){
-                        throw Error(`Invalid ending of env variable=${envVariableName}`);
+                        throw Error(`Invalid ending of env variable=${envVariableNameWithPrefix}`);
                     }
 
-                    if(!newData[permissionName]){
-                        newData[permissionName] = {};
+                    if(!parsedPermVariables[permissionName]){
+                        parsedPermVariables[permissionName] = {};
                     }
 
-                    newData[permissionName][permPropName] = envVariables[envVariableName];
+                    parsedPermVariables[permissionName][permPropName] = envVariables[envVariableNameWithPrefix];
                 }
             });
-            return newData;
+            return parsedPermVariables;
         }, {});
     
         return permissionVariables;

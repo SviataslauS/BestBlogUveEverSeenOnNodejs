@@ -10,12 +10,12 @@ class PostService {
     
     const weekInMc = 1000 * 60 * 60 * 24 * 7;
     const postsPerWeek = PostService.getStatForPeriod(posts, weekInMc);
-    
-    const postsPerMonthArr = _.groupBy(posts, function (item, val, index) {
-      const d = (item.creationDate.getFullYear() - 1970) * 12 + item.creationDate.getMonth();
-      return d;
+
+    const postsPerMonthArray = _.groupBy(posts, function (item) {
+      const amountOfMonthsFromMinDate = (item.creationDate.getFullYear() - 1970) * 12 + item.creationDate.getMonth();
+      return amountOfMonthsFromMinDate;
     });
-    const postsPerMonth = PostService.getMaxLenghtOfGroupedArr(postsPerMonthArr);
+    const postsPerMonth = PostService.getMaxLenghtOfGroupedArr(postsPerMonthArray);
 
     return {
       postsPerDay,
@@ -25,11 +25,11 @@ class PostService {
   }
 
   static getStatForPeriod(posts, period) {
-    const postsPerPeriodArr = _.groupBy(posts, function (item, val, index) {
-      const d = Math.floor(item.creationDate.getTime() / period);
-      return d;
+    const postsPerPeriodArray = _.groupBy(posts, function (item) {
+      const ratioForGrouping = Math.floor(item.creationDate.getTime() / period);
+      return ratioForGrouping;
     });
-    return PostService.getMaxLenghtOfGroupedArr(postsPerPeriodArr);
+    return PostService.getMaxLenghtOfGroupedArr(postsPerPeriodArray);
   }
 
   static getMaxLenghtOfGroupedArr(groupedArr) {

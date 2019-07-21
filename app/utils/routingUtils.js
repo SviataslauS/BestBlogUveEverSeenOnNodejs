@@ -25,7 +25,8 @@ class RoutingUtils {
         app.get(LoginController.paths.login, LoginController.login);
         app.get(LoginController.paths.logout, LoginController.logout);
 
-        app.post('/posts/getStatistic', withAuthorization(PostsController, 'getStatistic'));
+        app.get(PostsController.paths.getAllPosts, PostsController.getAllPosts);
+        app.get('/posts/statistic', withAuthorization(PostsController, 'getStatistic'));
         
         app.get('/checkAuth', PostsController.getStatistic);
         
