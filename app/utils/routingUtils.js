@@ -5,15 +5,16 @@ const PostsController = require('../controllers/postController');
 const { LoginController } = require('../controllers/loginController');
 const { withAuthorization } = require('../middlewares/authorizationMiddleware');
 const { authMiddleware } = require('../middlewares/authMiddleware');
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('../../swagger/swagger.yaml');
-// const cookieParser = require('cookie-parser');
-
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const path = require('path');
+const swaggerFilePath  = path.join(__dirname, '../../swagger/swagger.yaml');
+const swaggerDocument = YAML.load(swaggerFilePath);
 
 class RoutingUtils {
     static registerMiddlewares(app) {
         app.use(express.static('/'));
-        //app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+        app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
         app.use('*', authMiddleware);
 

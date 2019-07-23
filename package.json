@@ -23,7 +23,9 @@
     "express": "^4.17.1",
     "jest": "24.8.0",
     "lodash": "^4.17.15",
-    "swagger-ui-express": "^4.0.7"
+    "path": "^0.12.7",
+    "swagger-ui-express": "^4.0.7",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^6.0.1",
