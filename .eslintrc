@@ -8,6 +8,7 @@
         "require": "readonly",
         "process": "readonly",
         "module": "readonly",
+        "__dirname": "readonly",
         "describe": "readonly",
         "expect": "readonly",
         "xit": "readonly",

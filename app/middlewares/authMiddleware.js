@@ -3,6 +3,8 @@ const { LoginController, authCookieName } = require('../controllers/loginControl
 const _ = require('lodash');
 
 const nonSecurePaths = [
+        '/api',
+        '/api/',
         '/',
         HealthController.paths.ping,
         LoginController.paths.login,

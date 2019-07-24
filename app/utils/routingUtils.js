@@ -6,8 +6,11 @@ const { LoginController } = require('../controllers/loginController');
 const { withAuthorization } = require('../middlewares/authorizationMiddleware');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const swaggerUi = require('swagger-ui-express');
+const oas3Tools = require('oas3-tools');
 const YAML = require('yamljs');
 const path = require('path');
+
+
 const swaggerFilePath  = path.join(__dirname, '../../swagger/swagger.yaml');
 const swaggerDocument = YAML.load(swaggerFilePath);
 
@@ -17,6 +20,13 @@ class RoutingUtils {
         app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
         app.use('*', authMiddleware);
+        
+        oas3Tools.initializeMiddleware(swaggerDocument, (middleware) => {
+            // var options = {
+            //     controllers: path.join(__dirname, '../controllers'),
+            // };
+            // app.use(middleware.swaggerRouter(options));
+        });
 
     }
 
