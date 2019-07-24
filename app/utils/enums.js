@@ -3,4 +3,8 @@ const permissions = {
     ADD_PHOTOS: 'ADD_PHOTOS',
 };
 
-module.exports = { permissions };
+const entities = {
+    posts: 'posts',
+};
+
+module.exports = { permissions, entities };

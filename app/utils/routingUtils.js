@@ -19,13 +19,18 @@ class RoutingUtils {
         app.use(express.static('/'));
         app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
-        app.use('*', authMiddleware);
         
         oas3Tools.initializeMiddleware(swaggerDocument, (middleware) => {
-            // var options = {
-            //     controllers: path.join(__dirname, '../controllers'),
-            // };
-            // app.use(middleware.swaggerRouter(options));
+            app.use(middleware.swaggerMetadata());
+            
+            var options = {
+                ignoreMissingHandlers: false,
+                useStubs: false,
+                controllers: path.join(__dirname, '../controllers'),
+            };
+            app.use(middleware.swaggerRouter(options));
+            
+            app.use('*', authMiddleware);
         });
 
     }
@@ -37,9 +42,10 @@ class RoutingUtils {
         app.get(LoginController.paths.logout, LoginController.logout);
 
         app.get(PostsController.paths.getAllPosts, PostsController.getAllPosts);
-        app.get('/posts/statistic', withAuthorization(PostsController, 'getStatistic'));
+        app.get(PostsController.paths.getPostById, PostsController.getPostById);
+        // app.get('/posts/statistic', withAuthorization(PostsController, 'getStatistic'));
         
-        app.get('/checkAuth', PostsController.getStatistic);
+        // app.get('/checkAuth', PostsController.getStatistic);
         
         app.get('/', (req, res) => {
             res.send('It\'s a Blog, motherfucker!');

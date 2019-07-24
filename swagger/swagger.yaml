@@ -98,8 +98,8 @@ paths:
     put:
       tags:
       - post
-      summary: Updates a post in the blog with form data
-      operationId: updatePostWithForm
+      summary: Updates a post in the blog
+      operationId: updatePost
       parameters:
       - name: postId
         in: path
@@ -110,7 +110,7 @@ paths:
           format: int64
       requestBody:
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               properties:
                 name:
@@ -351,6 +351,11 @@ paths:
           description: User not found
           content: {}
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authentication  
   schemas:
     User:
       required:
@@ -433,3 +438,5 @@ components:
           type: string
         message:
           type: string
+security:
+  - cookieAuth: []

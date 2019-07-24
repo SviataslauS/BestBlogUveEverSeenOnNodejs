@@ -1,9 +1,13 @@
 const _ = require('lodash');
+const { entities } = require('../utils/enums');
 const Repository = require('../repository/repository');
 
-class PostService {    
+
+const PostRepository = new Repository(entities.posts);
+
+class PostService {
   static getStatistic() {
-    const posts = Repository.getAllPosts();
+    const posts = PostService.getAllPosts();
 
     const dayInMc = 1000 * 60 * 60 * 24;
     const postsPerDay = PostService.getStatForPeriod(posts, dayInMc);
@@ -41,6 +45,28 @@ class PostService {
     });
     return maxLenght;
   }
+
+  static getAllPosts() {
+    const posts = PostRepository.getAll();
+    return posts;
+  }
+
+  static getPostById(postId) {
+    const posts = PostRepository.getById(postId);
+    return posts;
+  }
+
+  static updatePost() {
+    const posts = PostRepository.update();
+    return posts;
+  }
+
+  static deletePost() {
+    const posts = PostRepository.delete();
+    return posts;
+  }
+
+
 }
 
 module.exports = PostService;

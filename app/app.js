@@ -8,7 +8,10 @@ const app = express();
 RoutingUtils.registerMiddlewares(app);
 RoutingUtils.registerRoutes(app);
 
-const http = require('http');
-const server = http.createServer(app);
-const port = process.env.PORT || '3000';
-server.listen(port);
+
+setTimeout(() => {
+    const http = require('http');
+    const server = http.createServer(app);
+    const port = process.env.PORT || '3000';
+    server.listen(port);
+}, 0);

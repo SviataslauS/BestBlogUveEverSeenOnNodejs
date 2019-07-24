@@ -6,7 +6,8 @@ const actionPermissions = {
 };
 
 const paths = {
-  getAllPosts: '/posts'
+  getAllPosts: '/posts',
+  getPostById: '/posts/:postId'
 };
 
 class PostsController {
@@ -27,6 +28,23 @@ class PostsController {
     const result = PostService.getAllPosts();
     res.json(result);
   } 
+
+  static getPostById(req, res) {
+    const postId = req.params.postId;
+    const result = PostService.getPostById(postId);
+    res.json(result);
+  } 
+
+  static updatePost(req, res) {
+    PostService.updatePost();
+    res.status(200).end();
+  }
+  
+  static deletePost(req, res) {
+    PostService.deletePost();
+    res.status(200).end();
+  } 
+
 }
 
 module.exports = PostsController;
