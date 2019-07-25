@@ -1,5 +1,5 @@
 const permissions = {
-    VIEW_PHOTOS: 'VIEW_PHOTOS',
+    VIEW_STATISTIC: 'VIEW_STATISTIC',
     ADD_PHOTOS: 'ADD_PHOTOS',
 };
 

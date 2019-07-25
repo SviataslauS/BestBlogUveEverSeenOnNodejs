@@ -6,7 +6,7 @@ describe('Auth', () => {
   xit('checkPermission should true if user have permission by matching login', () => {
     const user = { login: 'test', email: 'test@mail.com' };
 
-    const isAllowed = Auth.checkUserPermission(permissions.VIEW_PHOTOS, user);
+    const isAllowed = Auth.checkUserPermission(permissions.VIEW_STATISTIC, user);
 
     expect(isAllowed).toBeTruthy();
   });

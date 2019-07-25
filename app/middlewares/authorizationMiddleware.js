@@ -1,16 +1,7 @@
 const { Auth } = require('../services/authorizationService');
 
 
-function withAuthorization(controller, actionName) {
-    const action = controller[actionName];
-    const permissionName = controller.permissions[actionName];
-    if (!permissionName) {
-        throw Error('Permission name must be in controller.permissions property by action name');
-    }
-    if (!action) {
-        throw Error('Action name must available by controller[actionName]');
-    }
-
+function withAuthorization(action, permissionName) {
     return function authorizationMiddleware(req, res, next) {
         const user = { 'email': 'test@qwe.qwe'}; //getCurrentUser()        
         const isAllowed = Auth.checkUserPermission(permissionName, user);

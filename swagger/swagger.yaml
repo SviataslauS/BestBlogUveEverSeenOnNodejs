@@ -39,7 +39,7 @@ paths:
         404:
           description: Post not found
           content: {}
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
     post:
       tags:
       - post
@@ -59,7 +59,7 @@ paths:
         405:
           description: Invalid input
           content: {}
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
   /posts/statistic:
     get:
       tags:
@@ -73,7 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostsStatistic'
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
   /posts/{postId}:
     get:
       tags:
@@ -104,7 +104,7 @@ paths:
         404:
           description: Post not found
           content: {}
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
     put:
       tags:
       - post
@@ -129,7 +129,7 @@ paths:
         405:
           description: Invalid input
           content: {}
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
     delete:
       tags:
       - post
@@ -152,7 +152,7 @@ paths:
         404:
           description: Post not found
           content: {}
-      x-swagger-router-controller: Post
+      x-swagger-router-controller: postController
   /posts/{postId}/comments:
     post:
       tags:
