@@ -9,6 +9,8 @@ externalDocs:
   url: http://swagger.io
 servers:
 - url: /
+security:
+- cookieAuth: []
 tags:
 - name: post
   description: Everything about blog Posts
@@ -390,11 +392,6 @@ paths:
           content: {}
       x-swagger-router-controller: User
 components:
-  securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: authentication  
   schemas:
     User:
       required:
@@ -500,6 +497,9 @@ components:
       properties:
         name:
           type: string
-          description: Updated name of the post     
-security:
-  - cookieAuth: []
+          description: Updated name of the post
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      name: authentication
+      in: cookie

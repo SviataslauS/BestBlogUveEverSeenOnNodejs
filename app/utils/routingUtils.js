@@ -37,8 +37,8 @@ class RoutingUtils {
     static registerRoutes(app) {
         // app.get(HealthController.paths.ping, HealthController.ping);
         
-        // app.get(LoginController.paths.login, LoginController.login);
-        // app.get(LoginController.paths.logout, LoginController.logout);
+        app.get(LoginController.paths.login, LoginController.login);
+        app.get(LoginController.paths.logout, LoginController.logout);
 
         // app.get(PostsController.paths.getAllPosts, PostsController.getAllPosts);
         // app.get(PostsController.paths.getPostById, PostsController.getPostById);
