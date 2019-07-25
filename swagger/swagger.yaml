@@ -1,17 +1,19 @@
 openapi: 3.0.1
 info:
-  title: Swagger BLOG
+  title: Swagger SviataslauS BLOG
   contact:
     email: s.sviataslau@gmail.com
   version: 1.0.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
+servers:
+- url: /
 tags:
 - name: post
-  description: Everything about your Posts
+  description: Everything about blog Posts
 - name: comment
-  description: Access to comments
+  description: Access to comments of blog posts
 - name: user
   description: Operations about user
 paths:
@@ -35,6 +37,7 @@ paths:
         404:
           description: Post not found
           content: {}
+      x-swagger-router-controller: Post
     post:
       tags:
       - post
@@ -54,6 +57,7 @@ paths:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: Post
   /posts/statistic:
     get:
       tags:
@@ -67,6 +71,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostsStatistic'
+      x-swagger-router-controller: Post
   /posts/{postId}:
     get:
       tags:
@@ -79,6 +84,8 @@ paths:
         in: path
         description: ID of post to return
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -95,6 +102,7 @@ paths:
         404:
           description: Post not found
           content: {}
+      x-swagger-router-controller: Post
     put:
       tags:
       - post
@@ -105,6 +113,8 @@ paths:
         in: path
         description: ID of post that needs to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -112,14 +122,12 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                name:
-                  type: string
-                  description: Updated name of the post
+              $ref: '#/components/schemas/postUpdateBody'
       responses:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: Post
     delete:
       tags:
       - post
@@ -130,6 +138,8 @@ paths:
         in: path
         description: Post id to delete
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -140,6 +150,7 @@ paths:
         404:
           description: Post not found
           content: {}
+      x-swagger-router-controller: Post
   /posts/{postId}/comments:
     post:
       tags:
@@ -151,6 +162,8 @@ paths:
         in: path
         description: Post id of comments
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -168,6 +181,7 @@ paths:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: Comment
   /posts/{postId}/comments/{commentId}:
     get:
       tags:
@@ -180,6 +194,8 @@ paths:
         in: path
         description: Post id to delete
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -187,6 +203,8 @@ paths:
         in: path
         description: ID of comment to return
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -203,6 +221,7 @@ paths:
         404:
           description: Comment not found
           content: {}
+      x-swagger-router-controller: Comment
     post:
       tags:
       - comment
@@ -213,6 +232,8 @@ paths:
         in: path
         description: Post id for comment
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -220,18 +241,21 @@ paths:
         in: path
         description: ID of comment that needs to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
       requestBody:
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
       responses:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: Comment
     delete:
       tags:
       - comment
@@ -242,6 +266,8 @@ paths:
         in: path
         description: Post id for comment
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -249,6 +275,8 @@ paths:
         in: path
         description: Comment id to delete
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -259,6 +287,7 @@ paths:
         404:
           description: Comment not found
           content: {}
+      x-swagger-router-controller: Comment
   /user:
     post:
       tags:
@@ -277,6 +306,7 @@ paths:
         default:
           description: successful operation
           content: {}
+      x-swagger-router-controller: User
   /user/{id}:
     get:
       tags:
@@ -288,6 +318,8 @@ paths:
         in: path
         description: 'The id that needs to be fetched. Use 1 for testing. '
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
       responses:
@@ -303,6 +335,7 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
     put:
       tags:
       - user
@@ -314,6 +347,8 @@ paths:
         in: path
         description: id of user that need to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
       requestBody:
@@ -330,6 +365,7 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
     delete:
       tags:
       - user
@@ -341,6 +377,8 @@ paths:
         in: path
         description: The id that needs to be deleted
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
       responses:
@@ -350,6 +388,7 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
 components:
   securitySchemes:
     cookieAuth:
@@ -375,6 +414,12 @@ components:
           type: integer
           description: User Role
           format: int32
+      example:
+        role: 6
+        fullName: fullName
+        id: 0
+        email: e@ma.il
+        username: username
       xml:
         name: User
     Post:
@@ -391,13 +436,17 @@ components:
         creationDate:
           type: string
           example: 30/02/2012
+      example:
+        name: doggie
+        id: 0
+        creationDate: 30/02/2012
       xml:
         name: Post
     PostsStatistic:
       required:
       - postsPerDay
-      - postsPerWeek
       - postsPerMonth
+      - postsPerWeek
       type: object
       properties:
         postsPerDay:
@@ -409,6 +458,10 @@ components:
         postsPerMonth:
           type: integer
           format: int64
+      example:
+        postsPerDay: 0
+        postsPerWeek: 6
+        postsPerMonth: 1
     Comment:
       required:
       - postId
@@ -426,6 +479,11 @@ components:
         creationDate:
           type: string
           example: 30/02/2012
+      example:
+        id: 0
+        postId: 6
+        text: u re crazy, man
+        creationDate: 30/02/2012
       xml:
         name: Comment
     ApiResponse:
@@ -438,5 +496,10 @@ components:
           type: string
         message:
           type: string
+    postUpdateBody:
+      properties:
+        name:
+          type: string
+          description: Updated name of the post     
 security:
   - cookieAuth: []

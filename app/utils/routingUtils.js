@@ -16,7 +16,6 @@ const swaggerDocument = YAML.load(swaggerFilePath);
 
 class RoutingUtils {
     static registerMiddlewares(app) {
-        app.use(express.static('/'));
         app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
         
@@ -36,13 +35,13 @@ class RoutingUtils {
     }
 
     static registerRoutes(app) {
-        app.get(HealthController.paths.ping, HealthController.ping);
+        // app.get(HealthController.paths.ping, HealthController.ping);
         
-        app.get(LoginController.paths.login, LoginController.login);
-        app.get(LoginController.paths.logout, LoginController.logout);
+        // app.get(LoginController.paths.login, LoginController.login);
+        // app.get(LoginController.paths.logout, LoginController.logout);
 
-        app.get(PostsController.paths.getAllPosts, PostsController.getAllPosts);
-        app.get(PostsController.paths.getPostById, PostsController.getPostById);
+        // app.get(PostsController.paths.getAllPosts, PostsController.getAllPosts);
+        // app.get(PostsController.paths.getPostById, PostsController.getPostById);
         // app.get('/posts/statistic', withAuthorization(PostsController, 'getStatistic'));
         
         // app.get('/checkAuth', PostsController.getStatistic);
