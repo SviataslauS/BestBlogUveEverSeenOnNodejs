@@ -12,7 +12,7 @@ class CommentService extends EntityService {
     if(!postComments) {
       throw Error(`${this.entityName} entity with post id = ${postId} not found`);
     }
-    return this.getByIdFromArray(commentId, postComments);
+    return this.repository.getByIdFromArray(commentId, postComments);
   }
 
   create(entity) {
