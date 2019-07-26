@@ -30,7 +30,7 @@ class Repository {
     return Repository.storage[this.entityName];
   }
 
-  _getById(id, entities) {
+  getByIdFromArray(id, entities) {
     const entity = _.find(entities, entity => entity.id == id);
     if(!entity) {
       throw Error(`${this.entityName} entity with id=${id} not found`);
@@ -41,7 +41,7 @@ class Repository {
   
   getById(id) {
     const allEntities = this.getAll();
-    return this._getById(id, allEntities);
+    return this.getByIdFromArray(id, allEntities);
   }
   
   create(entity) {
@@ -57,7 +57,7 @@ class Repository {
 
   update(id, entity) {
     const entities = this.getAll();
-    let oldEntity = this._getById(id, entities);
+    let oldEntity = this.getByIdFromArray(id, entities);
     Object.assign(oldEntity, entity);
     this.save(entities);
   }

@@ -211,7 +211,7 @@ paths:
       - comment
       summary: Find comment by ID
       description: Returns a single comment
-      operationId: getCommentById
+      operationId: getComment
       parameters:
       - name: postId
         in: path

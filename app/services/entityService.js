@@ -14,6 +14,11 @@ class EntityService {
         return entity;
     }
 
+    getByIdFromArray(id, entities) {
+        const entity = this.repository.getByIdFromArray(id, entities);
+        return entity;
+    }
+
     create(entity) {
         return this.repository.create(entity);
     }

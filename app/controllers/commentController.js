@@ -6,9 +6,10 @@ function getAllComments(req, res) {
   res.json(result);
 }
 
-function getCommentById(req, res) {
+function getComment(req, res) {
   const commentId = req.swagger.params.commentId.value;
-  const result = CommentService.getEntityById(commentId);
+  const postId = req.swagger.params.postId.value;
+  const result = CommentService.getComment(postId, commentId);
   res.json(result);
 } 
 
@@ -34,7 +35,7 @@ function deleteComment(req, res) {
 
 module.exports = {
   getAllComments,
-  getCommentById,
+  getComment,
   addComment,
   updateComment,
   deleteComment,
