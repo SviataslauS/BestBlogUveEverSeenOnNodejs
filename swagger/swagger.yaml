@@ -329,7 +329,32 @@ paths:
         default:
           description: successful operation
           content: {}
-      x-swagger-router-controller: User
+      x-swagger-router-controller: userController
+  /user/gravatar:
+    post:
+      tags:
+      - user
+      summary: Returns user profile from gravatar
+      description: This can only be done by the logged in user.
+      operationId: getGravatarProfile
+      requestBody:
+        description: Post object that needs to be added to the blog
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserEmail'
+        required: true
+      responses:
+        201:
+          description: Gravatar Profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GravatarProfile'
+        405:
+          description: Invalid input
+          content: {}
+      x-swagger-router-controller: userController
   /user/{id}:
     get:
       tags:
@@ -358,7 +383,7 @@ paths:
         404:
           description: User not found
           content: {}
-      x-swagger-router-controller: User
+      x-swagger-router-controller: userController
     put:
       tags:
       - user
@@ -377,7 +402,7 @@ paths:
       requestBody:
         description: Updated user object
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/User'
         required: true
@@ -388,7 +413,7 @@ paths:
         404:
           description: User not found
           content: {}
-      x-swagger-router-controller: User
+      x-swagger-router-controller: userController
     delete:
       tags:
       - user
@@ -411,7 +436,7 @@ paths:
         404:
           description: User not found
           content: {}
-      x-swagger-router-controller: User
+      x-swagger-router-controller: userController
 components:
   schemas:
     User:
@@ -440,6 +465,44 @@ components:
         username: username
       xml:
         name: User
+    GravatarProfile:
+      required:
+      - username
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          hash:
+            type: string
+          requestHash:
+            type: string
+          profileUrl:
+            type: string
+          preferredUsername:
+            type: string
+          thumbnailUrl:
+            type: string
+          name:
+            type: array
+            items:
+              type: object
+          displayName:
+            type: string
+          photos:
+            type: array
+            items:
+              type: object
+              properties:
+                value:
+                  type: string
+                type:
+                  type: string
+          urls:
+            type: array
+            items:
+              type: object
     Post:
       required:
       - name
@@ -502,8 +565,14 @@ components:
         postId: 6
         text: u re crazy, man
         creationDate: 30/02/2012
-      xml:
-        name: Comment
+    UserEmail:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          example: test@te.st
     ApiResponse:
       type: object
       properties:
