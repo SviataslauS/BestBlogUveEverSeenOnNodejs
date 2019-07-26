@@ -34,7 +34,6 @@ function deletePost(req, res) {
 } 
 
 function getStatistic(req, res) {
-  console.log('Postjs');
   const result = PostService.getStatistic();
   res.json(result);
 }

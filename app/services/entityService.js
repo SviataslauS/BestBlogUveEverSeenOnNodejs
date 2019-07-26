@@ -6,8 +6,7 @@ class EntityService {
     }
 
     getAll() {
-        const entities = this.repository.getAll();
-        return entities;
+        return this.repository.getAll();
     }
 
     getEntityById(id) {

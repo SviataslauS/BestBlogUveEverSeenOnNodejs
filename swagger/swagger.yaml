@@ -154,6 +154,26 @@ paths:
           content: {}
       x-swagger-router-controller: postController
   /posts/{postId}/comments:
+    get:
+      tags:
+      - comment
+      summary: Get all comments
+      description: Returns all comments
+      operationId: getAllComments
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Post not found
+          content: {}
+      x-swagger-router-controller: commentController
     post:
       tags:
       - comment
@@ -183,7 +203,8 @@ paths:
         405:
           description: Invalid input
           content: {}
-      x-swagger-router-controller: Comment
+      
+      x-swagger-router-controller: commentController
   /posts/{postId}/comments/{commentId}:
     get:
       tags:
@@ -223,7 +244,7 @@ paths:
         404:
           description: Comment not found
           content: {}
-      x-swagger-router-controller: Comment
+      x-swagger-router-controller: commentController
     post:
       tags:
       - comment
@@ -257,7 +278,7 @@ paths:
         405:
           description: Invalid input
           content: {}
-      x-swagger-router-controller: Comment
+      x-swagger-router-controller: commentController
     delete:
       tags:
       - comment
@@ -289,7 +310,7 @@ paths:
         404:
           description: Comment not found
           content: {}
-      x-swagger-router-controller: Comment
+      x-swagger-router-controller: commentController
   /user:
     post:
       tags:

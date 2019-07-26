@@ -30,15 +30,25 @@ class Repository {
     return Repository.storage[this.entityName];
   }
 
-  getById(id) {      
-    const entity = _.filter(this.getAll(), entity => entity.id == id);
+  _getById(id, entities) {
+    const entity = _.find(entities, entity => entity.id == id);
+    if(!entity) {
+      throw Error(`${this.entityName} entity with id=${id} not found`);
+    }
+
     return entity;
   }
   
+  getById(id) {
+    const allEntities = this.getAll();
+    return this._getById(id, allEntities);
+  }
+  
   create(entity) {
-    let entities = this.getAll();
-    const maxExistingId = Math.max(entities.map(e => e.id));
-    entity.id = maxExistingId;
+    let entities = this.getAll() || [];
+    let maxExistingId = Math.max(entities.map(e => e.id));
+    entity.id = ++maxExistingId;
+    entity.creationDate = Repository.formatDate(new Date());
     entities.push(entity);
     this.save(entities);
 
@@ -46,8 +56,8 @@ class Repository {
   }
 
   update(id, entity) {
-    let entities = this.getAll();
-    let oldEntity = entities.find(e => e.id == id);
+    const entities = this.getAll();
+    let oldEntity = this._getById(id, entities);
     Object.assign(oldEntity, entity);
     this.save(entities);
   }
@@ -56,6 +66,14 @@ class Repository {
     let entities = this.getAll();
     const newEntities = entities.filter(e => e.id != id);
     this.save(newEntities);
+  }
+
+  static formatDate(date) {
+    var dd = String(date.getDate()).padStart(2, '0');
+    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = date.getFullYear();
+
+    return `${mm}/${dd}/${yyyy}`;
   }
 
 }

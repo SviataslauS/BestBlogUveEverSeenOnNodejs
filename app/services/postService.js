@@ -8,16 +8,6 @@ class PostService extends EntityService {
     super(entities.posts);
   }
 
-  getAll() {
-    const allPosts = super.getAll();
-    const entities = _.map(allPosts, function(item){
-      item.creationDate = new Date(item.creationDate);
-      return item;
-    });
-
-    return entities;
-  }
-
   getStatistic() {
     const posts = this.getAll();
 
