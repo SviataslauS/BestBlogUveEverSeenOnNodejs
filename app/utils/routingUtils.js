@@ -4,8 +4,6 @@ const swaggerUi = require('swagger-ui-express');
 const oas3Tools = require('oas3-tools');
 const YAML = require('yamljs');
 const path = require('path');
-const { HealthController } = require('../controllers/healthController');
-const { LoginController } = require('../controllers/loginController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 
 
@@ -17,6 +15,7 @@ class RoutingUtils {
         app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
         app.use(cookieParser());
         app.use(bodyParser.json());
+
         app.use('*', authMiddleware);
         
         oas3Tools.initializeMiddleware(swaggerDocument, (middleware) => {
@@ -26,18 +25,10 @@ class RoutingUtils {
                 controllers: path.join(__dirname, '../controllers'),
             };
             app.use(middleware.swaggerRouter(options));
-        });
-
-    }
-
-    static registerRoutes(app) {
-        app.get(HealthController.paths.ping, HealthController.ping);
-        
-        app.get(LoginController.paths.login, LoginController.login);
-        app.get(LoginController.paths.logout, LoginController.logout);
-
-        app.get('/', (req, res) => {
-            res.send('It\'s a Blog, motherfucker!');
+            
+            app.get('/', (req, res) => {
+                res.send('It\'s a Blog, motherfucker!');
+            });
         });
     }
 }

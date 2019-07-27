@@ -1,21 +1,19 @@
-const {HealthController} = require('../controllers/healthController');
-const { LoginController, authCookieName } = require('../controllers/loginController');
-const _ = require('lodash');
 
+const authCookieName = 'authentication';
 const nonSecurePaths = [
-        '/api',
-        '/api/',
-        '/',
-        HealthController.paths.ping,
-        LoginController.paths.login,
-        LoginController.paths.logout,
-    ];
+    '/api',
+    '/api/',
+    '/',
+    '/health/ping',
+    '/login',
+    '/logout',
+];
 
 function authMiddleware (req, res, next) {
-    if ( _.includes(nonSecurePaths, req.originalUrl) ) {
+    if (nonSecurePaths.includes(req.originalUrl) ) {
         return next();
     }
-    
+
     const authCookie = (req.cookies)[authCookieName];
     return authCookie
             ? next()
