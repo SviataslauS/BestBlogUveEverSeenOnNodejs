@@ -6,9 +6,8 @@ const { RoutingUtils } = require('./utils/routingUtils');
 const app = express();
 
 RoutingUtils.registerMiddlewares(app);
-RoutingUtils.registerRoutes(app);
 
-
+// hack for register swagger-tools in callback
 setTimeout(() => {
     const http = require('http');
     const server = http.createServer(app);

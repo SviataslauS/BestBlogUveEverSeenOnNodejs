@@ -31,7 +31,7 @@ class Repository {
   }
 
   getByIdFromArray(id, entities) {
-    const entity = _.find(entities, entity => entity.id == id);
+    const entity = entities.find(entity => entity.id == id);
     if(!entity) {
       throw Error(`${this.entityName} entity with id=${id} not found`);
     }

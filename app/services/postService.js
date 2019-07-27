@@ -9,8 +9,10 @@ class PostService extends EntityService {
   }
 
   getStatistic() {
-    const posts = this.getAll();
-
+    const posts = this.getAll().map(item => {	
+      item.creationDate = new Date(item.creationDate);	
+      return item;	
+    });
     const dayInMc = 1000 * 60 * 60 * 24;
     const postsPerDay = this.getStatForPeriod(posts, dayInMc);
     
@@ -40,7 +42,7 @@ class PostService extends EntityService {
 
   getMaxLenghtOfGroupedArr(groupedArr) {
     let maxLenght = 0;
-    _.each(groupedArr, item => {
+    Object.entries(groupedArr).forEach(item => {
       if (item && item.length > maxLenght) {
         maxLenght = item.length;
       }

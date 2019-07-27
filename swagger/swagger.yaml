@@ -412,6 +412,39 @@ paths:
           description: User not found
           content: {}
       x-swagger-router-controller: User
+  /login:
+    get:
+      tags:
+      - login
+      summary: Get auth cookie
+      operationId: login
+      security: []
+      responses:
+        200:
+          description: user is authenticated
+      x-swagger-router-controller: loginController
+  /logout:
+    get:
+      tags:
+      - login
+      summary: Expire auth cookie
+      operationId: logout
+      security: []
+      responses:
+        200:
+          description: user is logged out 
+      x-swagger-router-controller: loginController
+  /health/ping:
+    get:
+      tags:
+      - health
+      summary: check app health
+      operationId: ping
+      security: []
+      responses:
+        200:
+          description: app is healthy
+      x-swagger-router-controller: healthController
 components:
   schemas:
     User:
