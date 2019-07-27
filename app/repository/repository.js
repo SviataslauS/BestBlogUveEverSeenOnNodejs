@@ -1,9 +1,8 @@
 const fs = require('fs');
-const _ = require('lodash');
+const path = require('path');
 
 
-const appRoot = process.cwd();
-const filePath = appRoot + '/app/storage.json';
+const filePath = path.join(__dirname, '../storage.json');
 
 class Repository {
   constructor(entityName) {

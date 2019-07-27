@@ -42,7 +42,7 @@ class PostService extends EntityService {
 
   getMaxLenghtOfGroupedArr(groupedArr) {
     let maxLenght = 0;
-    Object.entries(groupedArr).forEach(item => {
+    _.each(groupedArr, item => {
       if (item && item.length > maxLenght) {
         maxLenght = item.length;
       }

@@ -470,6 +470,21 @@ paths:
         200:
           description: app is healthy
       x-swagger-router-controller: healthController
+  /worker/statistic:
+    get:
+      tags:
+      - worker
+      summary: check app health
+      operationId: getStatisticFromWorker
+      security: []
+      responses:
+        200:
+          description: app is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatisticObj'
+      x-swagger-router-controller: workerController
 components:
   schemas:
     User:
@@ -575,7 +590,13 @@ components:
       example:
         postsPerDay: 0
         postsPerWeek: 6
-        postsPerMonth: 1
+        postsPerMonth: 1        
+    StatisticObj:
+      type: object
+      properties:
+        postsStatistic:
+          type: object
+          $ref: '#/components/schemas/PostsStatistic'
     Comment:
       required:
       - postId

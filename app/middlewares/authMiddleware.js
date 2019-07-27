@@ -7,6 +7,7 @@ const nonSecurePaths = [
     '/health/ping',
     '/login',
     '/logout',
+    '/worker/statistic',
 ];
 
 function authMiddleware (req, res, next) {
