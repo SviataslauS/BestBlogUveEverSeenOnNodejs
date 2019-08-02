@@ -24,6 +24,11 @@
             "id": 5,
             "name": "Post number 5",
             "creationDate": "06/30/2019"
+        },
+        {
+            "id": 6,
+            "name": "Post number 6",
+            "creationDate": "06/30/2018"
         }
     ]
 }

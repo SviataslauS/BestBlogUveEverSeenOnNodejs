@@ -1,26 +1,45 @@
 openapi: 3.0.1
 info:
-  title: Swagger BLOG
-  description: 'This is the best swagger for the best blog you''ve ever seen'
-  # termsOfService: http://swagger.io/terms/
+  title: Swagger SviataslauS BLOG
   contact:
     email: s.sviataslau@gmail.com
-  # license:
-  #   name: Apache 2.0
-  #   url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
+servers:
+- url: /
+security:
+- cookieAuth: []
 tags:
 - name: post
-  description: Everything about your Posts
+  description: Everything about blog Posts
 - name: comment
-  description: Access to comments
+  description: Access to comments of blog posts
 - name: user
   description: Operations about user
 paths:
   /posts:
+    get:
+      tags:
+      - post
+      summary: Get all posts
+      description: Returns all posts
+      operationId: getAllPosts
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Post not found
+          content: {}
+      x-swagger-router-controller: postController
     post:
       tags:
       - post
@@ -32,9 +51,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Post'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Post'
         required: true
       responses:
         201:
@@ -43,6 +59,21 @@ paths:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: postController
+  /posts/statistic:
+    get:
+      tags:
+      - post
+      summary: Returs posts per day, week, month
+      operationId: getStatistic
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsStatistic'
+      x-swagger-router-controller: postController
   /posts/{postId}:
     get:
       tags:
@@ -55,6 +86,8 @@ paths:
         in: path
         description: ID of post to return
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -62,9 +95,6 @@ paths:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
@@ -74,45 +104,44 @@ paths:
         404:
           description: Post not found
           content: {}
-    post:
+      x-swagger-router-controller: postController
+    put:
       tags:
       - post
-      summary: Updates a post in the blog with form data
-      operationId: updatePostWithForm
+      summary: Updates a post in the blog
+      operationId: updatePost
       parameters:
       - name: postId
         in: path
         description: ID of post that needs to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
       requestBody:
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              properties:
-                name:
-                  type: string
-                  description: Updated name of the post
+              $ref: '#/components/schemas/postUpdateBody'
       responses:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: postController
     delete:
       tags:
       - post
       summary: Deletes a post
       operationId: deletePost
       parameters:
-      - name: api_key
-        in: header
-        schema:
-          type: string
       - name: postId
         in: path
         description: Post id to delete
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -123,19 +152,47 @@ paths:
         404:
           description: Post not found
           content: {}
+      x-swagger-router-controller: postController
   /posts/{postId}/comments:
+    get:
+      tags:
+      - comment
+      summary: Get all comments
+      description: Returns all comments
+      operationId: getAllComments
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Post not found
+          content: {}
+      x-swagger-router-controller: commentController
     post:
       tags:
       - comment
       summary: Add a new comment to the post
       operationId: addComment
+      parameters:
+      - name: postId
+        in: path
+        description: Post id of comments
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       requestBody:
         description: Post object that needs to be added to the blog
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/Comment'
-          application/xml:
             schema:
               $ref: '#/components/schemas/Comment'
         required: true
@@ -146,18 +203,31 @@ paths:
         405:
           description: Invalid input
           content: {}
+      
+      x-swagger-router-controller: commentController
   /posts/{postId}/comments/{commentId}:
     get:
       tags:
       - comment
       summary: Find comment by ID
       description: Returns a single comment
-      operationId: getCommentById
+      operationId: getComment
       parameters:
+      - name: postId
+        in: path
+        description: Post id to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       - name: commentId
         in: path
         description: ID of comment to return
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -165,9 +235,6 @@ paths:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Comment'
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
@@ -177,45 +244,62 @@ paths:
         404:
           description: Comment not found
           content: {}
+      x-swagger-router-controller: commentController
     post:
       tags:
       - comment
       summary: Updates a comment in the blog with form data
       operationId: updateComment
       parameters:
+      - name: postId
+        in: path
+        description: Post id for comment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
       - name: commentId
         in: path
         description: ID of comment that needs to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
       requestBody:
         content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Comment'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
       responses:
         405:
           description: Invalid input
           content: {}
+      x-swagger-router-controller: commentController
     delete:
       tags:
       - comment
       summary: Delete a comment
       operationId: deleteComment
       parameters:
-      - name: api_key
-        in: header
+      - name: postId
+        in: path
+        description: Post id for comment
+        required: true
+        style: simple
+        explode: false
         schema:
-          type: string
+          type: integer
+          format: int64
       - name: commentId
         in: path
         description: Comment id to delete
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
           format: int64
@@ -226,6 +310,7 @@ paths:
         404:
           description: Comment not found
           content: {}
+      x-swagger-router-controller: commentController
   /user:
     post:
       tags:
@@ -244,6 +329,7 @@ paths:
         default:
           description: successful operation
           content: {}
+      x-swagger-router-controller: User
   /user/{id}:
     get:
       tags:
@@ -255,15 +341,14 @@ paths:
         in: path
         description: 'The id that needs to be fetched. Use 1 for testing. '
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
       responses:
         200:
           description: successful operation
           content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
@@ -273,6 +358,7 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
     put:
       tags:
       - user
@@ -284,6 +370,8 @@ paths:
         in: path
         description: id of user that need to be updated
         required: true
+        style: simple
+        explode: false
         schema:
           type: integer
       requestBody:
@@ -300,6 +388,7 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
     delete:
       tags:
       - user
@@ -307,12 +396,14 @@ paths:
       description: This can only be done by the logged in user.
       operationId: deleteUser
       parameters:
-      - name: username
+      - name: id
         in: path
-        description: The name that needs to be deleted
+        description: The id that needs to be deleted
         required: true
+        style: simple
+        explode: false
         schema:
-          type: string
+          type: integer
       responses:
         400:
           description: Invalid username supplied
@@ -320,6 +411,40 @@ paths:
         404:
           description: User not found
           content: {}
+      x-swagger-router-controller: User
+  /login:
+    get:
+      tags:
+      - login
+      summary: Get auth cookie
+      operationId: login
+      security: []
+      responses:
+        200:
+          description: user is authenticated
+      x-swagger-router-controller: loginController
+  /logout:
+    get:
+      tags:
+      - login
+      summary: Expire auth cookie
+      operationId: logout
+      security: []
+      responses:
+        200:
+          description: user is logged out 
+      x-swagger-router-controller: loginController
+  /health/ping:
+    get:
+      tags:
+      - health
+      summary: check app health
+      operationId: ping
+      security: []
+      responses:
+        200:
+          description: app is healthy
+      x-swagger-router-controller: healthController
 components:
   schemas:
     User:
@@ -340,6 +465,12 @@ components:
           type: integer
           description: User Role
           format: int32
+      example:
+        role: 6
+        fullName: fullName
+        id: 0
+        email: e@ma.il
+        username: username
       xml:
         name: User
     Post:
@@ -356,8 +487,32 @@ components:
         creationDate:
           type: string
           example: 30/02/2012
+      example:
+        name: doggie
+        id: 0
+        creationDate: 30/02/2012
       xml:
         name: Post
+    PostsStatistic:
+      required:
+      - postsPerDay
+      - postsPerMonth
+      - postsPerWeek
+      type: object
+      properties:
+        postsPerDay:
+          type: integer
+          format: int64
+        postsPerWeek:
+          type: integer
+          format: int64
+        postsPerMonth:
+          type: integer
+          format: int64
+      example:
+        postsPerDay: 0
+        postsPerWeek: 6
+        postsPerMonth: 1
     Comment:
       required:
       - postId
@@ -375,6 +530,11 @@ components:
         creationDate:
           type: string
           example: 30/02/2012
+      example:
+        id: 0
+        postId: 6
+        text: u re crazy, man
+        creationDate: 30/02/2012
       xml:
         name: Comment
     ApiResponse:
@@ -387,3 +547,13 @@ components:
           type: string
         message:
           type: string
+    postUpdateBody:
+      properties:
+        name:
+          type: string
+          description: Updated name of the post
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      name: authentication
+      in: cookie

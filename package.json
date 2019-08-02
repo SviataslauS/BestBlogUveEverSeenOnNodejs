@@ -4,7 +4,8 @@
   "description": "",
   "main": "./app/app.js",
   "scripts": {
-    "start": "node ./app/app.js"
+    "lint": "eslint . --fix",
+    "start": "nodemon ./app/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +18,20 @@
   },
   "homepage": "https://github.com/SviataslauS/BestBlogUveEverSeenOnNodejs#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "fs": "0.0.1-security",
-    "lodash": "^4.17.11",
-    "opn": "^6.0.0"
+    "jest": "24.8.0",
+    "lodash": "^4.17.15",
+    "oas3-tools": "^1.0.2-RC2",
+    "path": "^0.12.7",
+    "swagger-ui-express": "^4.0.7",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^6.0.1"
+    "eslint": "^6.0.1",
+    "eslint-loader": "2.1.0",
+    "nodemon": "^1.19.1"
   }
 }

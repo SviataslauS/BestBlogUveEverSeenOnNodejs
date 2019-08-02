@@ -1,22 +1,16 @@
-var opn = require('opn');
-var express = require('express');
-const HealthController = require('./controllers/healthController');
-const PostsController = require('./controllers/postController');
+require('dotenv').config();
 
-var app = express();
+const express = require('express');
+const { RoutingUtils } = require('./utils/routingUtils');
 
-app.get('/health/ping', HealthController.ping);
-    
-app.get('/posts/getStatistic', PostsController.getStatistic); // should be post
+const app = express();
 
-app.get('/', (req, res) => {
-    res.send('It\'s a Blog, motherfucker!');
-});
+RoutingUtils.registerMiddlewares(app);
 
-
-var http = require('http');
-var server = http.createServer(app);
-var port = process.env.PORT || '3000';
-server.listen(port);
-
-opn('http://localhost:3000');
+// hack for register swagger-tools in callback
+setTimeout(() => {
+    const http = require('http');
+    const server = http.createServer(app);
+    const port = process.env.PORT || '3000';
+    server.listen(port);
+}, 0);
