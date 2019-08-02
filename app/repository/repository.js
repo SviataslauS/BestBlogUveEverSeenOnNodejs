@@ -21,7 +21,7 @@ class Repository {
   }
 
   save(entities) {
-    let store = Repository.storage;
+    const store = Repository.storage;
     store[this.entityName] = entities;
     Repository.writeStorage(store);
   }
@@ -45,7 +45,7 @@ class Repository {
   }
   
   create(entity) {
-    let entities = this.getAll() || [];
+    const entities = this.getAll() || [];
     let maxExistingId = Math.max(entities.map(e => e.id));
     entity.id = ++maxExistingId;
     entity.creationDate = Repository.formatDate(new Date());
@@ -57,21 +57,21 @@ class Repository {
 
   update(id, entity) {
     const entities = this.getAll();
-    let oldEntity = this.getByIdFromArray(id, entities);
+    const oldEntity = this.getByIdFromArray(id, entities);
     Object.assign(oldEntity, entity);
     this.save(entities);
   }
 
   delete(id) {
-    let entities = this.getAll();
+    const entities = this.getAll();
     const newEntities = entities.filter(e => e.id != id);
     this.save(newEntities);
   }
 
   static formatDate(date) {
-    var dd = String(date.getDate()).padStart(2, '0');
-    var mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = date.getFullYear();
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = date.getFullYear();
 
     return `${mm}/${dd}/${yyyy}`;
   }

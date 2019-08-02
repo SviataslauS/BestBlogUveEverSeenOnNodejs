@@ -21,7 +21,7 @@ class RoutingUtils {
         oas3Tools.initializeMiddleware(swaggerDocument, (middleware) => {
             app.use(middleware.swaggerMetadata());
             
-            var options = {
+            const options = {
                 controllers: path.join(__dirname, '../controllers'),
             };
             app.use(middleware.swaggerRouter(options));

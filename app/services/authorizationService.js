@@ -37,10 +37,10 @@ class Auth {
             return k.indexOf(envVarPrefix) == 0;
         })
         .reduce(function(parsedPermVariables, envVariableNameWithPrefix) {
-            let envVariableName = envVariableNameWithPrefix.replace(envVarPrefix, '');
+            const envVariableName = envVariableNameWithPrefix.replace(envVarPrefix, '');
             Object.keys(permissionsEnum).forEach(function(permissionName) {
                 if(envVariableName.indexOf(permissionName) == 0) {
-                    let permPropName = envVariableName.replace(permissionName + '_', '').toLowerCase();
+                    const permPropName = envVariableName.replace(permissionName + '_', '').toLowerCase();
                     if(permPropName !== 'field' && permPropName !== 'match'){
                         throw Error(`Invalid ending of env variable=${envVariableNameWithPrefix}`);
                     }
