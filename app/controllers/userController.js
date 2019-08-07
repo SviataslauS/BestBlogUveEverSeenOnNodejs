@@ -1,5 +1,8 @@
 const fetch = require("node-fetch");
 const md5 = require('md5');
+const { UserService } = require('../services/userService');
+const dbHelper = require('../utils/dbHelper');
+const mongoose = require('mongoose');
 
 
 async function getGravatarProfile(req, res) {
@@ -29,7 +32,19 @@ async function getGravatarProfile(req, res) {
   res.json(messageData);
 }
 
+async function getUserById(req, res) {
+  const id = req.swagger.params.id.value;
+  const result = await UserService.getUserById(id);
+  res.json(result);
+} 
+
+async function getAllUsers(req, res) {
+  const result = await UserService.getAllUsers();
+  res.json(result);
+}
 
 module.exports = {
   getGravatarProfile,
+  getUserById,
+  getAllUsers,
 };

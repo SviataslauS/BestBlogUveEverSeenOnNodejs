@@ -6,6 +6,7 @@ const permissions = {
 const entities = {
     posts: 'posts',
     comments: 'comments',
+    users: 'users',
 };
 
 module.exports = { permissions, entities };
