@@ -16,10 +16,6 @@ class CommentService extends EntityService {
   }
 
   create(entity) {
-    if(!entity.postId){
-      throw Error(`${entities.comments} entity should have postId property`);
-    }
-
     return super.create(entity);
   }
 }

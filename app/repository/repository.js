@@ -5,8 +5,8 @@ const path = require('path');
 const filePath = path.join(__dirname, '../storage.json');
 
 class Repository {
-  constructor(entityName) {
-    this.entityName = entityName;
+  constructor(entityModel) {
+    this.model = entityModel;
   }
   
   static get storage() { 
@@ -25,8 +25,9 @@ class Repository {
     Repository.writeStorage(store);
   }
 
-  getAll() {
-    return Repository.storage[this.entityName];
+  async getAll() {
+    const users = await this.model.find({});
+    return users;
   }
 
   getByIdFromArray(id, entities) {
@@ -38,12 +39,13 @@ class Repository {
     return entity;
   }
   
-  getById(id) {
-    const allEntities = this.getAll();
-    return this.getByIdFromArray(id, allEntities);
+  async getById(id) {
+    const users = await this.model.findById(id);
+    return users;
   }
   
   create(entity) {
+    this.model.create(entity);
     let entities = this.getAll() || [];
     let maxExistingId = Math.max(entities.map(e => e.id));
     entity.id = ++maxExistingId;

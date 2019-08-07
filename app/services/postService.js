@@ -1,15 +1,16 @@
 const _ = require('lodash');
-const { entities } = require('../utils/enums');
+const Post = require('../repository/models/postModel');
 const EntityService = require('../services/entityService');
 
 
 class PostService extends EntityService {
   constructor(){
-    super(entities.posts);
+    super(Post);
   }
 
-  getStatistic() {
-    const posts = this.getAll().map(item => {	
+  async getStatistic() {
+    const allposts = await this.getAll();
+    const posts = allposts.map(item => {	
       item.creationDate = new Date(item.creationDate);	
       return item;	
     });

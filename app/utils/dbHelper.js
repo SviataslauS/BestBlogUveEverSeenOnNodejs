@@ -3,7 +3,7 @@ const dbHelper = {
     connect(mongoose, uri) {
 
         mongoose.connection.on('open', () => {
-            console.log('Connection to Mongo is open');
+            console.log(`Connection to Mongo is open. Uri:${uri}`);
         });
         mongoose.connection.on('connected', () => {
             console.log('Connected to Mongo');
