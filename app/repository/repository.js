@@ -1,7 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
-const filePath = path.join(__dirname, '../storage.json');
 
 class Repository {
   constructor(entityModel) {
@@ -9,13 +5,18 @@ class Repository {
   }
   
   async getAll() {
-    const users = await this.model.find({});
-    return users;
+    const entities = await this.model.find({});
+    return entities;
+  }
+
+  async findOne(conditions) {
+    const entity = await this.model.findOne(conditions);
+    return entity;
   }
 
   async getById(id) {
-    const users = await this.model.findById(id);
-    return users;
+    const entity = await this.findOne({_id: id});
+    return entity;
   }
   
   async create(entity) {
