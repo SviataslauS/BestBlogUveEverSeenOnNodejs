@@ -54,6 +54,6 @@ module.exports = () => {
   createUsers()
     .then(createPosts)
     .finally(() => {
-      mongoose.connection.close();
+      // mongoose.connection.close();
     });  
 };

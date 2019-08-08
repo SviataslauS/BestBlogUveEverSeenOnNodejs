@@ -10,8 +10,7 @@ class EntityService {
     }
 
     getEntityById(id) {
-        const entity = this.repository.getById(id);
-        return entity;
+        return this.repository.getById(id);
     }
 
     create(entity) {

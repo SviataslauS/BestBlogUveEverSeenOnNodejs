@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-
 const filePath = path.join(__dirname, '../storage.json');
 
 class Repository {
@@ -9,64 +8,29 @@ class Repository {
     this.model = entityModel;
   }
   
-  static get storage() { 
-    const storage = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    return storage;
-  }
-
-  static writeStorage(store) {
-    const json = JSON.stringify(store);
-    fs.writeFileSync(filePath, json, 'utf8');
-  }
-
-  save(entities) {
-    let store = Repository.storage;
-    store[this.entityName] = entities;
-    Repository.writeStorage(store);
-  }
-
   async getAll() {
     const users = await this.model.find({});
     return users;
   }
 
-  getByIdFromArray(id, entities) {
-    const entity = entities.find(entity => entity.id == id);
-    if(!entity) {
-      throw Error(`${this.entityName} entity with id=${id} not found`);
-    }
-
-    return entity;
-  }
-  
   async getById(id) {
     const users = await this.model.findById(id);
     return users;
   }
   
-  create(entity) {
-    this.model.create(entity);
-    let entities = this.getAll() || [];
-    let maxExistingId = Math.max(entities.map(e => e.id));
-    entity.id = ++maxExistingId;
+  async create(entity) {
     entity.creationDate = Repository.formatDate(new Date());
-    entities.push(entity);
-    this.save(entities);
-
+    await this.model.create(entity);
     return entity;
   }
 
-  update(id, entity) {
-    const entities = this.getAll();
-    let oldEntity = this.getByIdFromArray(id, entities);
-    Object.assign(oldEntity, entity);
-    this.save(entities);
+  async update(id, entity) {
+    const newEntity = await this.model.findOneAndUpdate(id, entity);
+    return newEntity;
   }
 
   delete(id) {
-    let entities = this.getAll();
-    const newEntities = entities.filter(e => e.id != id);
-    this.save(newEntities);
+    this.model.deleteOne({ _id: id });
   }
 
   static formatDate(date) {
