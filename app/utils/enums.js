@@ -4,8 +4,9 @@ const permissions = {
 };
 
 const entities = {
-    posts: 'posts',
-    comments: 'comments',
+    Post: 'Post',
+    Comment: 'Comment',
+    User: 'User',
 };
 
 module.exports = { permissions, entities };

@@ -1,8 +1,8 @@
 const Repository = require('../repository/repository');
 
 class EntityService {
-    constructor(entityName) {
-        this.repository = new Repository(entityName);
+    constructor(entityModel) {
+        this.repository = new Repository(entityModel);
     }
 
     getAll() {
@@ -10,8 +10,7 @@ class EntityService {
     }
 
     getEntityById(id) {
-        const entity = this.repository.getById(id);
-        return entity;
+        return this.repository.getById(id);
     }
 
     create(entity) {

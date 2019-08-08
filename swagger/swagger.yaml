@@ -311,6 +311,21 @@ paths:
           description: Comment not found
           content: {}
       x-swagger-router-controller: commentController
+  /users:
+    get:
+      tags:
+      - user
+      summary: Get all users
+      description: Returns all users
+      operationId: getAllUsers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-swagger-router-controller: userController
   /user:
     post:
       tags:

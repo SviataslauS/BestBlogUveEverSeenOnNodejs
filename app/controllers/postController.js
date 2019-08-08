@@ -3,38 +3,38 @@ const { withAuthorization } = require('../middlewares/authorizationMiddleware');
 const { permissions } = require('../utils/enums');
 
 
-function getAllPosts(req, res) {
-  const result = PostService.getAll();
+async function getAllPosts(req, res) {
+  const result = await PostService.getAll();
   res.json(result);
 }
 
-function getPostById(req, res) {
+async function getPostById(req, res) {
   const postId = req.swagger.params.postId.value;
-  const result = PostService.getEntityById(postId);
+  const result = await PostService.getEntityById(postId);
   res.json(result);
 } 
 
-function createPost(req, res) {
+async function createPost(req, res) {
   const body = req.body;
-  const result = PostService.create(body);
+  const result = await PostService.create(body);
   res.json(result);
 } 
 
-function updatePost(req, res) {
+async function updatePost(req, res) {
   const postId = req.swagger.params.postId.value;
   const body = req.body;
-  PostService.update(postId, body);
+  await PostService.update(postId, body);
   res.status(200).end();
 }
 
-function deletePost(req, res) {
+async function deletePost(req, res) {
   const postId = req.swagger.params.postId.value;
-  PostService.delete(postId);
+  await PostService.delete(postId);
   res.status(200).end();
 } 
 
-function getStatistic(req, res) {
-  const result = PostService.getStatistic();
+async function getStatistic(req, res) {
+  const result = await PostService.getStatistic();
   res.json(result);
 }
 

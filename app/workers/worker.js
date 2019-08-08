@@ -1,6 +1,11 @@
 const { parentPort } = require('worker_threads');
 const { PostService } = require('../services/postService');
 
-
-const postsStatistic = PostService.getStatistic();
-parentPort.postMessage({ postsStatistic });
+PostService.getStatistic()
+    .then(postsStatistic => {
+        parentPort.postMessage({ postsStatistic });
+    })
+    .catch(e => {
+        console.log(`worker error: ${e}`);
+    });
+    
