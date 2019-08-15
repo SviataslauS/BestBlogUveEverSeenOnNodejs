@@ -4,6 +4,7 @@
   "description": "",
   "main": "./app/app.js",
   "scripts": {
+    "test": "mocha './**/*.spec.js' --watch --exclude './node_modules/**/*.js'",
     "lint": "eslint . --fix",
     "start": "nodemon ./app/app.js"
   },
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/SviataslauS/BestBlogUveEverSeenOnNodejs#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cookie-parser": "^1.4.4",
     "cron": "^1.7.1",
     "dotenv": "^8.0.0",
@@ -26,10 +28,12 @@
     "jest": "24.8.0",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
+    "mocha": "^6.2.0",
     "mongoose": "^5.6.8",
     "node-fetch": "^2.6.0",
     "oas3-tools": "^1.0.2-RC2",
     "path": "^0.12.7",
+    "sinon": "^7.4.1",
     "swagger-ui-express": "^4.0.7",
     "yamljs": "^0.3.0"
   },
