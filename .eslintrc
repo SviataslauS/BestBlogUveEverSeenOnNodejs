@@ -5,6 +5,8 @@
     },
     "extends": "eslint:recommended",
     "globals": {
+        "sinon": "readonly",
+        "afterEach": "readonly",
         "require": "readonly",
         "process": "readonly",
         "module": "readonly",

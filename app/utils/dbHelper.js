@@ -25,7 +25,7 @@ const dbHelper = {
         return mongoose.connect(uri, {useNewUrlParser: true});
     },
     isConnected() {
-        this.connected;
+        return this.connected;
     }
 };
 

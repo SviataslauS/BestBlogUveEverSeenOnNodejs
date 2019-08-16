@@ -4,7 +4,7 @@
   "description": "",
   "main": "./app/app.js",
   "scripts": {
-    "test": "mocha './**/*.spec.js' --watch --exclude './node_modules/**/*.js'",
+    "test": "mocha './**/*.spec.js' --watch --exclude './node_modules/**/*.js' --require ./mochaSetup.js",
     "lint": "eslint . --fix",
     "start": "nodemon ./app/app.js"
   },
@@ -25,7 +25,6 @@
     "cron": "^1.7.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "jest": "24.8.0",
     "lodash": "^4.17.15",
     "md5": "^2.2.1",
     "mocha": "^6.2.0",
@@ -34,6 +33,7 @@
     "oas3-tools": "^1.0.2-RC2",
     "path": "^0.12.7",
     "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0",
     "swagger-ui-express": "^4.0.7",
     "yamljs": "^0.3.0"
   },
