@@ -50,10 +50,12 @@ function createPosts() {
   });
 }
 
-module.exports = () => {
+const run = () => {
   createUsers()
     .then(createPosts)
     .finally(() => {
       // mongoose.connection.close();
     });  
 };
+
+module.exports = { run };
