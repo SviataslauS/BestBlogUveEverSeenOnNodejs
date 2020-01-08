@@ -12,7 +12,7 @@ app.get('/posts/getStatistic', PostsController.getStatistic); // should be post
 app.get('/', (req, res) => {
     res.send('It\'s a Blog, motherfucker!');
 });
-
+//test
 
 var http = require('http');
 var server = http.createServer(app);
